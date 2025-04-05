@@ -7,7 +7,7 @@ export default function Login() {
 
   const handleGoogleSignIn = async () => {
     try {
-      await googleSignIn();
+      await signInWithGoogle();
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
