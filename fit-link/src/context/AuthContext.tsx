@@ -1,9 +1,9 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { 
+import {
   onAuthStateChanged,
-  signInWithPopup, 
+  signInWithPopup,
   GoogleAuthProvider,
   signOut,
   User
@@ -11,12 +11,17 @@ import {
 import { auth } from '../firebase/firebase-config'; // Updated relative path
 
 interface AuthContextType {
-  user: any | null;
+  user: User | null;
   logout: () => Promise<void>;
   signInWithGoogle: () => Promise<void>; // Add the new function
 }
 
-const AuthContext = createContext({});
+// Provide a default value that matches the AuthContextType
+const AuthContext = createContext<AuthContextType | undefined>({
+  user: null,
+  logout: () => Promise.resolve(), // No-op promise
+  signInWithGoogle: () => Promise.resolve(), // No-op promise
+});
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);

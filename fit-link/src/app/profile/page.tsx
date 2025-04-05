@@ -4,7 +4,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
-  const { user, logout} = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
 
   if (!user) {
