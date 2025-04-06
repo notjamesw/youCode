@@ -14,10 +14,10 @@ export default function Navbar() {
           <Link href="/message" className="text-gray-500">Messages</Link>
         </li>
         <li>
-          <Link href="/profile" className="text-gray-500">Profile</Link>
+          <Link href="/saved" className="text-gray-500">Saved</Link>
         </li>
         <li>
-          <Link href="/saved" className="text-gray-500">Bio</Link>
+          <Link href="/profile" className="text-gray-500">Profile</Link>
         </li>
       </ul>
     </nav>

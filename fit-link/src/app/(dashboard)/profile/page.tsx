@@ -4,12 +4,24 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
+type Bio = {
+  name: string;
+  pronouns: string;
+  location: string;
+  birthday: string;  // Optional if you want to allow missing birthday
+};
+
 export default function ProfilePage() {
   const { user, logout, loading} = useAuth();
   const router = useRouter();
   const [interests, setInterests] = useState([
     'Hiking', 'Weightlifting', 'Ice Climbing', 'Yoga', 'Climbing', 'Snowshoeing'
   ]);
+
+  const [nickname, setNickname] = useState('');
+  const [pronouns, setPronouns] = useState('');
+  const [location, setLocation] = useState('');
+  const [birthday, setBirthday] = useState('');
   
   const [communities, setCommunities] = useState([
     { name: 'UBC YouCode', icon: '/path-to-icon.png', color: 'purple' },
@@ -45,42 +57,90 @@ export default function ProfilePage() {
       comments: 1
     }
   ]);
-  // Define the exact color options as a type
-type ColorOption = 'purple' | 'pink' | 'blue' | 'green' | 'red';
 
-// Define the Community type using this color option
-type Community = {
-  name: string;
-  icon: string;
-  color: ColorOption;
-};
+  useEffect(() => {
+    const fetchBio = async () => {
+      if (user?.uid) {
+        try {
+          const bio = await fetchUserBio(user.uid);
+          
+          // Safely setting the values in state
+          setNickname(bio.name || '');
+          setPronouns(bio.pronouns || '');
+          setLocation(bio.location || '');
 
-// Create the color classes mapping with proper typing
-const colorClasses: Record<ColorOption, string> = {
-  purple: 'bg-purple-500',
-  pink: 'bg-pink-500',
-  blue: 'bg-blue-500',
-  green: 'bg-green-500',
-  red: 'bg-red-500'
-};
-
-
-    useEffect(() => {
-      if (!loading && !user) {
-        router.push('/login');
+          // Logging to check if the bio is retrieved correctly
+          console.log('Bio fetched:', bio);
+          console.log('Bio Name:', bio.name);
+          console.log('Bio Pronouns:', bio.pronouns);
+          console.log('Bio Location:', bio.location);
+        } catch (error) {
+          console.error('Error fetching bio:', error);
+        }
       }
-    }, [user, loading, router]);
+    };
 
-    if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
-    if (!user) return null;
+    if (user) {
+      fetchBio();
+    }
+  }, [user]); // Only run when `user` is available
 
-      const handleSignOut = async () => {
-      try {
-        await logout();
+  const fetchUserBio = async (uid: string): Promise<Bio> => {
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid }),
+    });
 
-      } catch (error) {
-      console.error("Error signing out", error);
-      }
+    const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || 'Failed to fetch user bio');
+  }
+
+  return data.bio;
+  };
+
+    // Define the exact color options as a type
+  type ColorOption = 'purple' | 'pink' | 'blue' | 'green' | 'red';
+
+  // Define the Community type using this color option
+  type Community = {
+    name: string;
+    icon: string;
+    color: ColorOption;
+  };
+
+  // Create the color classes mapping with proper typing
+  const colorClasses: Record<ColorOption, string> = {
+    purple: 'bg-purple-500',
+    pink: 'bg-pink-500',
+    blue: 'bg-blue-500',
+    green: 'bg-green-500',
+    red: 'bg-red-500'
+  };
+
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  if (!user) return null;
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+
+    } catch (error) {
+    console.error("Error signing out", error);
+    }
+  }
+
+  const handleEditBio = () => {
+    router.push('/bio'); // Redirect to the bio page
   }
 
   return (
@@ -93,6 +153,7 @@ const colorClasses: Record<ColorOption, string> = {
           </svg>
         </button>
         <h1 className="text-xl font-bold flex-1 text-center">Arc'Link</h1>
+        <button onClick={handleEditBio}>Edit</button>
       </div>
       
       {/* Profile Header with Mountains */}
@@ -108,16 +169,22 @@ const colorClasses: Record<ColorOption, string> = {
         <div className="flex flex-col items-center -mt-10">
           <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white">
           <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white">
-  {/* Placeholder profile image */}
-  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-    </svg>
-  </div>
-</div>
-          </div>
-          <h2 className="mt-2 text-xl font-bold">{user.displayName || 'User'}</h2>
-          <p className="text-gray-500 text-sm">Vancouver BC</p>
+      {/* Placeholder profile image */}
+      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      </div>
+      </div>
+        </div>
+        <div className = "text-black text-center mt-2">
+          <h2 className="mt-2 text-xl font-bold">
+            {nickname === '' ? user.displayName : nickname}
+          </h2>
+          <p className="text-gray-500 text-sm">{pronouns}</p>
+          <p className="text-gray-500 text-sm">{location}</p>
+          <p className="text-gray-500 text-sm">{birthday}</p>
+        </div>
         </div>
       </div>
       
