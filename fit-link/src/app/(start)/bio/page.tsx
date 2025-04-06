@@ -143,7 +143,7 @@ const ArcLinkBioPage = () => {
               />
             </svg>
             <h1 className="text-xl font-bold mt-2">Arc'Link</h1>
-            <p className="text-sm">Create your bio</p>
+            <p className="text-sm">Edit your bio</p>
             <p className="text-xs text-gray-500">Answer some questions below</p>
           </div>
           
@@ -201,14 +201,14 @@ const ArcLinkBioPage = () => {
 
             <button 
               onClick={handleSubmit}
-              className="w-full bg-gray-200 p-3 rounded text-black font-medium mt-4"
+              className="w-full bg-gray-200 p-3 rounded text-black font-medium mt-4 hover:bg-gray-300 focus:outline-none focus:text-white focus:bg-gray-500"
             >
               Continue
             </button>
 
             <button 
               onClick={handleSignOut}
-              className="w-full bg-red-200 p-3 rounded text-black font-medium mt-4"
+              className="w-full bg-red-200 p-3 rounded text-black font-medium mt-4 hover:bg-red-300 focus:outline-none focus:text-white focus:ring-red-500"
             >
               Log out
             </button>

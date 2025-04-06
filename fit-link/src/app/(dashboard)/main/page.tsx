@@ -17,6 +17,14 @@ export default function MessagesPage() {
   return (
     <div className="container w-screen min-h-screen bg-white">
       <div className ="text-black">
+          <div className="max-w-screen mx-0 bg-white flex flex-col">
+            {/* Header */}
+            <div className="relative p-4 grid grid-cols-3 items-center">
+              <div></div> {/* Left spacer */}
+              <h1 className="text-xl font-bold text-black text-center">Arc'Link</h1>
+              <div></div> {/* Right spacer */}
+            </div>
+          </div>
         <h1 className="text-2xl font-bold">Feed</h1>
         <p className="mt-4">This is the feed page.</p>
       </div>
