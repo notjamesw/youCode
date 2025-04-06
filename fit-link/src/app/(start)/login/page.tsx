@@ -13,6 +13,7 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
+      console.log("User signed in with Google:", user);
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
@@ -55,7 +56,7 @@ export default function Login() {
             <input
               type="text"
               className="text-gray-400 w-full px-3 py-2 border border-gray-400 rounded"
-              placeholder="Username"
+              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

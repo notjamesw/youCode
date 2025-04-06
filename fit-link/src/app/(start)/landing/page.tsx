@@ -9,6 +9,10 @@ export default function LandingPage() {
         router.push('/login');
     }
 
+    const handleRegister = async () => {
+        router.push('/register');
+    }
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="w-full max-w-md px-6 py-8 bg-white text-black rounded-lg">
@@ -22,7 +26,8 @@ export default function LandingPage() {
         
         {/* Buttons */}
         <div className="space-y-4">
-          <button className="w-full py-3 bg-black text-white rounded-md">
+          <button onClick={handleRegister}
+            className="w-full py-3 bg-black text-white rounded-md">
             Create an account
           </button>
           
