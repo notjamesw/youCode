@@ -1,9 +1,12 @@
 'use client';
 
+import  { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
-  const { user, signInWithGoogle, logout } = useAuth();
+  const { user, signInWithGoogle, logout, loading} = useAuth();
+  const router = useRouter();
 
   const handleGoogleSignIn = async () => {
     try {
@@ -13,21 +16,27 @@ export default function Login() {
     }
   }
 
-    const handleSignOut = async () => {
-        try {
-        await logout();
-        } catch (error) {
-        console.error("Error signing out", error);
-        }
-    }
-  
+  const handleSignOut = async () => {
+      try {
+      await logout();
+      } catch (error) {
+      console.error("Error signing out", error);
+      }
+  }
 
+  useEffect(() => {
+    if (user) {
+      console.log("User is logged in:", user);
+      router.push('/main'); // Redirect to the main page after login
+    }
+  }, [user, router]);
+  
   if(user) {
     return (
       <div>
-        <h1>You are already signed in!</h1>
-        <p>Welcome, {user.displayName || 'User'}!</p>
-        <button onClick={handleSignOut}>Sign out</button>
+        <h1>Welcome, {user.displayName || 'User'}!</h1>
+        <p>You are logged in.</p>
+        <button onClick={handleSignOut}>Sign Out</button>
       </div>
     );
   } else {

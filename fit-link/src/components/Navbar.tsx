@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-md border-t z-50">
       <ul className="flex justify-around items-center py-2">
         <li>
-          <Link href="/" className="text-gray-500">Home</Link>
+          <Link href="/main" className="text-gray-500">Home</Link>
         </li>
         <li>
           <Link href="/message" className="text-gray-500">Messages</Link>
