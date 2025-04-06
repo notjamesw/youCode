@@ -3,6 +3,7 @@ import React from 'react';
 
 export interface PostProps {
   author: string;
+  profileURL?: string;
   timestamp: string;
   type: string;
   children: React.ReactNode;
@@ -10,6 +11,7 @@ export interface PostProps {
 
 export interface StoryPostProps {
   author: string;
+  profileURL?: string;
   timestamp: string;
   title: string;
   content: string;
@@ -18,6 +20,7 @@ export interface StoryPostProps {
 
 export interface RequestPostProps {
   author: string;
+  profileURL?: string;
   timestamp: string;
   title: string;
 }
@@ -30,13 +33,13 @@ export interface TabButtonProps {
 
 
 // Post Component
-const Post: React.FC<PostProps> = ({ author, timestamp, type, children }) => {
+const Post: React.FC<PostProps> = ({ author, profileURL, timestamp, type, children }) => {
   return (
-    <div className="p-4 border-b">
+    <div className="p-4 border-gray-300 border rounded-lg m-4 bg-white shadow-sm">
       {/* User info */}
       <div className="flex items-center mb-3">
         <img 
-          src="/api/placeholder/40/40" 
+          src={profileURL}
           alt={author} 
           className="w-10 h-10 rounded-full object-cover" 
         />
@@ -57,9 +60,9 @@ const Post: React.FC<PostProps> = ({ author, timestamp, type, children }) => {
 };
 
 // Story Post Component
-const StoryPost: React.FC<StoryPostProps> = ({ author, timestamp, title, content, imageUrl }) => {
+const StoryPost: React.FC<StoryPostProps> = ({ author, profileURL, timestamp, title, content, imageUrl }) => {
   return (
-    <Post author={author} timestamp={timestamp} type="Story">
+    <Post author={author} profileURL={profileURL} timestamp={timestamp} type="Story">
       <h2 className="text-lg font-bold mb-1">{title}</h2>
       <p className="text-sm mb-3">{content}</p>
       {imageUrl && (
@@ -74,9 +77,9 @@ const StoryPost: React.FC<StoryPostProps> = ({ author, timestamp, title, content
 };
 
 // Request Post Component
-const RequestPost: React.FC<RequestPostProps> = ({ author, timestamp, title }) => {
+const RequestPost: React.FC<RequestPostProps> = ({ author, profileURL, timestamp, title }) => {
   return (
-    <Post author={author} timestamp={timestamp} type="Request">
+    <Post author={author} profileURL={profileURL} timestamp={timestamp} type="Request">
       <h2 className="text-lg font-bold">{title}</h2>
     </Post>
   );

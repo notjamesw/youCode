@@ -17,7 +17,7 @@ export default function FeedPage() {
     }, [user, loading, router]);
 
   return (
-    <div className="container w-screen min-h-screen bg-white">
+    <div className="container relative max-w-screen min-h-screen bg-white">
       <div className ="text-black">
           <div className="max-w-screen mx-0 bg-white flex flex-col">
             {/* Header */}
@@ -28,7 +28,7 @@ export default function FeedPage() {
             </div>
 
             {/* Navigation Tabs */}
-            <div className="px-4 py-2 flex space-x-3 overflow-x-auto border-b">
+            <div className="px-4 py-2 flex space-x-3 overflow-x-auto border-b border-gray-300">
               <button className="p-2 rounded-full bg-gray-100 text-black">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                   <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
@@ -61,19 +61,34 @@ export default function FeedPage() {
             </div>
 
             {/* Feed Content */}
-            <div className="overflow-y-auto">
+            <div className="overflow-y-auto max-w-screen overflow-x-hidden">
               <StoryPost 
                 author="Jane Doe"
+                profileURL="/images/pfp10.png"
                 timestamp="Today - 7:01 am"
                 title="First Project Pride Climb In Banff!"
                 content="Thrilled to kick off our very first Project Pride Climb in Banff! 🏔️ 🌈 Celebrating strength, unity, and inclusivity as we conquer new heights together. Here's to breaking barriers, making memories, and embracing our true selves. #PrideClimb #BanffAdventure #ProjectPride #ClimbForUnity"
-                imageUrl="/api/placeholder/400/200"
+                imageUrl="/images/iceclimb.jpg"
               />
 
-              <RequestPost 
+              <RequestPost
                 author="Sammy Hill"
+                profileURL="/images/pfp9.png"
                 timestamp="Yesterday - 3:30am"
                 title="Would anyone be willing to lend me a sleeping bag?"
+              />
+              <StoryPost
+                author="Max Verstappen"
+                profileURL="/images/pfp1.png" // Replace with actual image path
+                timestamp="Today • 7:01 am"
+                title="Call for Experienced Climbers – LGBTQ+ Climbing Mentorship Day"
+                content={`📍 Location: Smoke Bluffs Park, Squamish, BC \n
+              📅 Date: Saturday, June 15 \n
+              🕘 Time: 9:00 AM – 3:00 PM \n
+              🧠 Hosted by: Climbers Together (2023 Arc’teryx Grant Recipient) \n
+              🎯 Description:
+              We're organizing a community climbing day focused on creating a safe, inclusive space for LGBTQ+ newcomers to the sport. We're looking for experienced climbers to volunteer as mentors, helping guide small groups through basic skills and top-rope routes.`}
+                imageUrl="/images/climbing-event.jpg" // Replace with actual image path or use "/mnt/data/image.png" if directly referencing the uploaded file
               />
             </div>
           </div>
