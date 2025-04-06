@@ -17,7 +17,7 @@ export default function FeedPage() {
     }, [user, loading, router]);
 
   return (
-    <div className="container relative max-w-screen min-h-screen bg-white">
+    <div className="container relative max-w-screen min-h-screen bg-white pb-16">
       <div className ="text-black">
           <div className="max-w-screen mx-0 bg-white flex flex-col">
             {/* Header */}
@@ -61,14 +61,14 @@ export default function FeedPage() {
             </div>
 
             {/* Feed Content */}
-            <div className="overflow-y-auto max-w-screen overflow-x-hidden">
+            <div className="overflow-y-auto max-w-screen">
               <StoryPost 
-                author="Jane Doe"
-                profileURL="/images/pfp10.png"
-                timestamp="Today - 7:01 am"
-                title="First Project Pride Climb In Banff!"
-                content="Thrilled to kick off our very first Project Pride Climb in Banff! 🏔️ 🌈 Celebrating strength, unity, and inclusivity as we conquer new heights together. Here's to breaking barriers, making memories, and embracing our true selves. #PrideClimb #BanffAdventure #ProjectPride #ClimbForUnity"
-                imageUrl="/images/iceclimb.jpg"
+              author="Jane Doe"
+              profileURL="/images/pfp10.png"
+              timestamp="Today - 7:01 am"
+              title="First Project Pride Climb In Banff!"
+              content="Thrilled to kick off our very first Project Pride Climb in Banff! 🏔️ 🌈 Celebrating strength, unity, and inclusivity as we conquer new heights together. Here's to breaking barriers, making memories, and embracing our true selves. #PrideClimb #BanffAdventure #ProjectPride #ClimbForUnity"
+              imageUrl="/images/iceclimb.jpg"
               />
 
               <RequestPost
@@ -76,20 +76,25 @@ export default function FeedPage() {
                 profileURL="/images/pfp9.png"
                 timestamp="Yesterday - 3:30am"
                 title="Would anyone be willing to lend me a sleeping bag?"
-              />
-              <StoryPost
+                />
+                <StoryPost
                 author="Max Verstappen"
                 profileURL="/images/pfp1.png" // Replace with actual image path
                 timestamp="Today • 7:01 am"
                 title="Call for Experienced Climbers – LGBTQ+ Climbing Mentorship Day"
                 content={`📍 Location: Smoke Bluffs Park, Squamish, BC \n
-              📅 Date: Saturday, June 15 \n
-              🕘 Time: 9:00 AM – 3:00 PM \n
-              🧠 Hosted by: Climbers Together (2023 Arc’teryx Grant Recipient) \n
-              🎯 Description:
-              We're organizing a community climbing day focused on creating a safe, inclusive space for LGBTQ+ newcomers to the sport. We're looking for experienced climbers to volunteer as mentors, helping guide small groups through basic skills and top-rope routes.`}
-                imageUrl="/images/climbing-event.jpg" // Replace with actual image path or use "/mnt/data/image.png" if directly referencing the uploaded file
-              />
+                📅 Date: Saturday, June 15 \n
+                🕘 Time: 9:00 AM – 3:00 PM \n
+                🧠 Hosted by: Climbers Together (2023 Arc’teryx Grant Recipient) \n
+                🎯 Description:
+                We're organizing a community climbing day focused on creating a safe, inclusive space for LGBTQ+ newcomers to the sport. We're looking for experienced climbers to volunteer as mentors, helping guide small groups through basic skills and top-rope routes.`}
+                imageUrl="/images/climber.jpg" // Replace with actual image path or use "/mnt/data/image.png" if directly referencing the uploaded file
+                actionButton={
+                  <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                    Join
+                  </button>
+                }
+                />
             </div>
           </div>
       </div>

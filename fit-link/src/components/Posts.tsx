@@ -16,6 +16,7 @@ export interface StoryPostProps {
   title: string;
   content: string;
   imageUrl?: string;
+  actionButton?: React.ReactNode;
 }
 
 export interface RequestPostProps {
@@ -60,10 +61,11 @@ const Post: React.FC<PostProps> = ({ author, profileURL, timestamp, type, childr
 };
 
 // Story Post Component
-const StoryPost: React.FC<StoryPostProps> = ({ author, profileURL, timestamp, title, content, imageUrl }) => {
+const StoryPost: React.FC<StoryPostProps> = ({ author, profileURL, timestamp, title, content, imageUrl, actionButton }) => {
   return (
     <Post author={author} profileURL={profileURL} timestamp={timestamp} type="Story">
       <h2 className="text-lg font-bold mb-1">{title}</h2>
+      <p className="text-sm mb-2">{actionButton}</p>
       <p className="text-sm mb-3">{content}</p>
       {imageUrl && (
         <img 
