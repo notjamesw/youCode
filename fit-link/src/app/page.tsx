@@ -9,8 +9,14 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push('/login');
-    }, 2000); // 5 seconds delay
+    }, 1000); // 5 seconds delay
 
     return () => clearTimeout(timer); // Cleanup the timer on component unmount
   }, [router]);
+
+  return (
+    <div>
+      
+    </div>
+  )
 }
