@@ -30,7 +30,6 @@ export default function RootLayout({
         <AuthProvider>
           <div className="flex flex-col min-h-screen">
             {children}
-            <Navbar /> {/* Place navbar at the bottom */}
           </div>
         </AuthProvider>
       </body>

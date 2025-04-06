@@ -4,19 +4,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function Home() {
-  const { user, loading} = useAuth();
-    const router = useRouter();
+  const router = useRouter();
   
-    useEffect(() => {
-      if (!loading && !user) {
-        router.push('/login');
-      }
-    }, [user, loading, router]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push('/login');
+    }, 2000); // 5 seconds delay
 
-  return (
-    <div className="container">
-      <h1>Home Page</h1>
-      <p>Welcome to the Home page!</p>
-    </div>
-  );
+    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+  }, [router]);
 }
