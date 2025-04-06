@@ -1,21 +1,23 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading} = useAuth();
   const router = useRouter();
 
-  if (!user) {
-    router.push('/login'); // Redirect to login if not authenticated
-    return <p>Redirecting...</p>;
-  }
+    useEffect(() => {
+      if (!loading && !user) {
+        router.push('/login');
+      }
+    }, [user, loading, router]);
 
   return (
     <div className="container">
       <h1>Profile Page</h1>
-      <p>Welcome, {user.displayName || 'User'}!</p>
+      {user && <p>Welcome, {user.displayName || 'User'}!</p>}
       <p>This is your profile page.</p>
     </div>
   );

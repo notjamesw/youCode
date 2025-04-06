@@ -25,11 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <div className="flex flex-col min-h-screen">
-        {children}
-        <Navbar /> {/* Place navbar at the bottom */}
-      </div>
-    </AuthProvider>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
+        <AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            {children}
+            <Navbar /> {/* Place navbar at the bottom */}
+          </div>
+        </AuthProvider>
+      </body>
+    </html>
   );
 }

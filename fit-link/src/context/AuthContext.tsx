@@ -14,6 +14,7 @@ interface AuthContextType {
   user: User | null;
   logout: () => Promise<void>;
   signInWithGoogle: () => Promise<void>; // Add the new function
+  loading: boolean; // Add loading state to the context type
 }
 
 // Provide a default value that matches the AuthContextType
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>({
   user: null,
   logout: () => Promise.resolve(), // No-op promise
   signInWithGoogle: () => Promise.resolve(), // No-op promise
+  loading: false, // Default loading state
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -64,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     user,
     logout,
     signInWithGoogle: googleSignIn, // Add it to the context value
+    loading, // Add loading state to the context value
   };
 
   return (
