@@ -11,10 +11,13 @@ export default function Navbar() {
           <Link href="/" className="text-gray-500">Home</Link>
         </li>
         <li>
+          <Link href="/message" className="text-gray-500">Messages</Link>
+        </li>
+        <li>
           <Link href="/profile" className="text-gray-500">Profile</Link>
         </li>
         <li>
-          <Link href="/messages" className="text-gray-500">Messages</Link>
+            <Link href="/login" className="text-gray-500">Login</Link>
         </li>
       </ul>
     </nav>

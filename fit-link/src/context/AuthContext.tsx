@@ -25,10 +25,19 @@ const AuthContext = createContext<AuthContextType | undefined>({
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setloading] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      setloading(true);
+      if (user) {
+        console.log('User is signed in:', user);
+      }
+      else {
+        console.log('No user is signed in');
+      }
+      setloading(false);
     });
 
     return () => unsubscribe();
