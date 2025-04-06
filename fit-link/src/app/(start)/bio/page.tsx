@@ -1,6 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { db } from '@/firebase/firebase-config';
+import { doc, setDoc } from 'firebase/firestore';
 
 const ArcLinkBioPage = () => {
   const [name, setName] = useState<string>('');
@@ -9,6 +13,10 @@ const ArcLinkBioPage = () => {
   const [birthday, setBirthday] = useState<string>('');
   const [interests, setInterests] = useState<string[]>([]);
   const [currentInterest, setCurrentInterest] = useState<string>('');
+
+  const { user } = useAuth();
+
+  const router = useRouter();
   
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -26,8 +34,28 @@ const ArcLinkBioPage = () => {
         setBirthday(e.target.value);
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        // Handle form submission logic here
+         if (!user?.uid) {
+            alert("You're not logged in.");
+            return;
+        }
+
+        const bioData = {
+            name,
+            pronouns,
+            location,
+            birthday,
+        };
+
+        try {
+            await setDoc(doc(db, 'bios', user.uid), bioData);
+        } catch (error) {
+            console.error("Failed to save bio:", error);
+            alert("Something went wrong. Please try again.");
+        }
+        router.push('/profile'); // Redirect to the main dashboard page after submission
     }
 
   return (
