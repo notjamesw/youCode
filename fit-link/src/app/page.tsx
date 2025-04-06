@@ -1,15 +1,17 @@
 'use client';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const { user} = useAuth();
+  const { user, loading} = useAuth();
     const router = useRouter();
   
-    if (!user) {
-      router.push('/login'); // Redirect to login if not authenticated
-      return <p>Redirecting...</p>;
-    }
+    useEffect(() => {
+      if (!loading && !user) {
+        router.push('/login');
+      }
+    }, [user, loading, router]);
 
   return (
     <div className="container">
