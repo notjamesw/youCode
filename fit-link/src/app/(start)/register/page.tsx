@@ -6,7 +6,7 @@ export default function CreateAccountPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Account creation attempt with:', { email, password });
     // Add your account creation logic here
@@ -38,15 +38,6 @@ export default function CreateAccountPage() {
               placeholder="email@domain.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            
-            <input
-              type="text"
-              className="w-full px-4 py-3 border border-gray-300 rounded-md" 
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
               required
             />
             
