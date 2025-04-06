@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MoreVertical, Send, Mic, Clock } from 'lucide-react';
 
 interface MessageProps {
@@ -90,6 +90,24 @@ const ChatDetailPopup = () => {
 
   let currentDate: string | null = null;
 
+  useEffect(() => {
+  const styleElement = document.createElement('style');
+  styleElement.textContent = `
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.3s ease-out forwards;
+    }
+  `;
+  document.head.appendChild(styleElement);
+
+  return () => {
+    document.head.removeChild(styleElement);
+  };
+}, []);
+
   return (
     <div className="w-screen text-black h-screen flex items-end justify-center z-50">
       <div className="bg-white w-full h-full animate-slide-up">
@@ -155,17 +173,5 @@ const ChatDetailPopup = () => {
   );
 };
 
-// Add a simple animation for slide-up effect
-const styleElement = document.createElement('style');
-styleElement.textContent = `
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-  }
-  .animate-slide-up {
-    animation: slideUp 0.3s ease-out forwards;
-  }
-`;
-document.head.appendChild(styleElement);
 
 export default ChatDetailPopup;
