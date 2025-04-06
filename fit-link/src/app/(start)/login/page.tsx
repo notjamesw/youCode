@@ -45,10 +45,20 @@ export default function Login() {
           </div>
           <h2 className="text-xl font-bold text-black">Arc'Link</h2>
         </div>
+
+        {/* Back Button */}
+        <div className="mb-4">
+          <button
+            onClick={() => router.push('/landing')}
+            className="text-sm text-gray-500 underline hover:text-gray-700"
+          >
+            &larr; Back
+          </button>
+        </div>
         
         <h2 className="mb-2 text-xl font-semibold text-center text-black">Login</h2>
         <p className="mb-6 text-sm text-center text-gray-600">
-          Enter your email to sign up for this app
+          Enter your email to sign in to this app
         </p>
         
         <form onSubmit={handleSubmit}>

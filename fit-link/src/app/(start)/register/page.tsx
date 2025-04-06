@@ -41,6 +41,16 @@ export default function CreateAccountPage() {
           </div>
           <h2 className="text-xl font-bold text-black">Arc'Link</h2>
         </div>
+
+        {/* Back Button */}
+        <div className="mb-4">
+          <button
+            onClick={() => router.push('/landing')}
+            className="text-sm text-gray-500 underline hover:text-gray-700"
+          >
+            &larr; Back
+          </button>
+        </div>
         
         {/* Form Title and Description */}
         <div className="text-center mb-6 text-black">
