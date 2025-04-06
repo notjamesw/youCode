@@ -1,55 +1,38 @@
+'use client';
+
 import React, { useState } from 'react';
 
 const ArcLinkBioPage = () => {
-  interface FormData {
-      name: string;
-      pronouns: string;
-      location: string;
-      birthday: string;
-      interests: string[];
-  }
-  
-  const [formData, setFormData] = useState<FormData>({
-      name: '',
-      pronouns: '',
-      location: '',
-      birthday: '',
-      interests: []
-  });
-  
+  const [name, setName] = useState<string>('');
+  const [pronouns, setPronouns] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [birthday, setBirthday] = useState<string>('');
+  const [interests, setInterests] = useState<string[]>([]);
   const [currentInterest, setCurrentInterest] = useState<string>('');
   
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-      setFormData(prev => ({
-        ...prev,
-        interests: [...(prev.interests || []), currentInterest.trim()]
-      }));
-  };
-  
-  const handleAddInterest = () => {
-    if (currentInterest.trim()) {
-      setFormData(prev => ({
-        ...prev,
-        interests: [...prev.interests, currentInterest.trim()]
-      }));
-      setCurrentInterest('');
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  }
+
+  const handleChangePronouns = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPronouns(e.target.value);
+  }
+
+  const handleChangeLocation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLocation(e.target.value);
+  }
+
+    const handleChangeBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setBirthday(e.target.value);
     }
-  };
-  
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+    }
+
   return (
-    <div className="bg-black text-white min-h-screen p-4 flex flex-col items-center">
-      <div className="w-full max-w-sm bg-white text-black rounded-lg overflow-hidden">
+    <div className="w-full h-screen bg-white text-black">
         <div className="p-4 relative">
-          {/* Status bar */}
-          <div className="flex justify-between text-black mb-6">
-            <span>9:41</span>
-            <div className="flex space-x-1">
-              <span className="font-bold">•••</span>
-              <span>📱</span>
-            </div>
-          </div>
-          
           {/* Logo */}
           <div className="flex flex-col items-center mb-6">
             <svg viewBox="0 0 100 60" className="w-16 h-16">
@@ -91,8 +74,8 @@ const ArcLinkBioPage = () => {
               type="text" 
               placeholder="Name..." 
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name}
+              onChange={handleChangeName}
               className="w-full p-3 border rounded text-sm"
             />
             
@@ -100,8 +83,8 @@ const ArcLinkBioPage = () => {
               type="text" 
               placeholder="Pronouns" 
               name="pronouns"
-              value={formData.pronouns}
-              onChange={handleChange}
+              value={pronouns}
+              onChange={handleChangePronouns}
               className="w-full p-3 border rounded text-sm"
             />
             
@@ -109,8 +92,8 @@ const ArcLinkBioPage = () => {
               type="text" 
               placeholder="Location" 
               name="location"
-              value={formData.location}
-              onChange={handleChange}
+              value={location}
+              onChange={handleChangeLocation}
               className="w-full p-3 border rounded text-sm"
             />
             
@@ -118,12 +101,19 @@ const ArcLinkBioPage = () => {
               type="text" 
               placeholder="Birthday" 
               name="birthday"
-              value={formData.birthday}
-              onChange={handleChange}
+              value={birthday}
+              onChange={handleChangeBirthday}
               className="w-full p-3 border rounded text-sm"
             />
+
+            <button 
+              onClick={handleSubmit}
+              className="w-full bg-gray-200 p-3 rounded text-black font-medium mt-4"
+            >
+              Continue
+            </button>
             
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <input 
                 type="text" 
                 placeholder="I'm interested in ..." 
@@ -140,34 +130,9 @@ const ArcLinkBioPage = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                 </svg>
               </button>
-            </div>
-            
-            {formData.interests.length > 0 && (
-              <div className="flex flex-wrap gap-2">
-                {formData.interests.map((interest, idx) => (
-                  <span key={idx} className="bg-gray-100 px-2 py-1 rounded text-xs">
-                    {interest}
-                  </span>
-                ))}
-              </div>
-            )}
-            
-            <button 
-              type="submit" 
-              className="w-full bg-gray-200 p-3 rounded text-black font-medium mt-4"
-            >
-              Login
-            </button>
-            
-            <p className="text-xs text-gray-500 text-center mt-4">
-              By clicking continue, you agree to our <a href="#" className="underline">Terms of Service</a> and <a href="#" className="underline">Privacy Policy</a>
-            </p>
+            </div> */}
           </form>
-          
-          {/* Bottom indicator */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-gray-300 rounded-full mt-6"></div>
         </div>
-      </div>
     </div>
   );
 };
