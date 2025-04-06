@@ -1,18 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useState, useEffect} from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 
 export default function CreateAccountPage() {
+  const { user, loading, createUserWithEmail } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Account creation attempt with:', { email, password });
-    // Add your account creation logic here
+    try {
+      // Call the createUserWithEmail function from your auth context
+      await createUserWithEmail(email, password).then(() => {
+        console.log('User created successfully:', user);
+        router.push('/login'); // Redirect to the login page after account creation
+      });
+      
+      } catch (error) {
+      console.error('Error creating account:', error);
+    }
   };
+
+  useEffect(() => {
+    if (user) { 
+      router.push('/main'); // Redirect to the main page after login
+    }
+  }, [user, router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
