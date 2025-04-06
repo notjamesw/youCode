@@ -13,6 +13,7 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     try {
       await signInWithGoogle();
+      console.log("User signed in with Google:", user);
     } catch (error) {
       console.error("Error signing in with Google", error);
     }
