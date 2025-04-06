@@ -15,9 +15,11 @@ export default function MessagesPage() {
     }, [user, loading, router]);
 
   return (
-    <div className="container">
-      <h1>Main Page</h1>
-      <p>This is the main page</p>
+    <div className="container w-screen min-h-screen bg-white">
+      <div className ="text-black">
+        <h1 className="text-2xl font-bold">Feed</h1>
+        <p className="mt-4">This is the feed page.</p>
+      </div>
     </div>
   );
 }

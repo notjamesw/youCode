@@ -15,9 +15,11 @@ export default function SavedPage() {
     }, [user, loading, router]);
 
   return (
-    <div className="container">
-      <h1>Saved page</h1>
-      <p>Your saved posts are here.</p>
+    <div className="container w-screen min-h-screen bg-white">
+      <div className ="text-black">
+        <h1 className="text-2xl font-bold">Saved</h1>
+        <p className="mt-4">Your Saves posts are here.</p>
+      </div>
     </div>
   );
 }

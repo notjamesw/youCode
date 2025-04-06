@@ -68,6 +68,7 @@ export default function ProfilePage() {
           setNickname(bio.name || '');
           setPronouns(bio.pronouns || '');
           setLocation(bio.location || '');
+          setBirthday(bio.birthday || '');
 
           // Logging to check if the bio is retrieved correctly
           console.log('Bio fetched:', bio);
@@ -94,14 +95,14 @@ export default function ProfilePage() {
 
     const data = await res.json();
 
-  if (!res.ok) {
-    throw new Error(data.error || 'Failed to fetch user bio');
-  }
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to fetch user bio');
+    }
 
-  return data.bio;
+    return data.bio;
   };
 
-    // Define the exact color options as a type
+  // Define the exact color options as a type
   type ColorOption = 'purple' | 'pink' | 'blue' | 'green' | 'red';
 
   // Define the Community type using this color option
@@ -127,37 +128,21 @@ export default function ProfilePage() {
     }
   }, [user, loading, router]);
 
-  if (loading) return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  if (!user) return null;
-
-  const handleSignOut = async () => {
-    try {
-      await logout();
-
-    } catch (error) {
-    console.error("Error signing out", error);
-    }
-  }
-
   const handleEditBio = () => {
     router.push('/bio'); // Redirect to the bio page
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white">
+    <div className="max-w-screen mx-0 bg-white flex flex-col">
       {/* Header */}
-      <div className="relative p-4 flex items-center">
-        <button className="absolute left-2">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <h1 className="text-xl font-bold flex-1 text-center">Arc'Link</h1>
-        <button onClick={handleEditBio}>Edit</button>
+      <div className="relative p-4 grid grid-cols-3 items-center">
+        <div></div> {/* Left spacer */}
+        <h1 className="text-xl font-bold text-black text-center">Arc'Link</h1>
+        <button className="text-black text-xl justify-self-end" onClick={handleEditBio}>Edit</button>
       </div>
       
       {/* Profile Header with Mountains */}
-      <div className="relative">
+      <div className="relative flex-shrink-0">
         <div className="h-20 bg-gray-100 flex items-center justify-center">
           <svg className="w-full h-16 text-gray-300" viewBox="0 0 400 100">
             <path d="M0,100 L50,30 L100,70 L150,20 L200,50 L250,10 L300,60 L350,40 L400,90 L400,100 Z" 
@@ -168,23 +153,20 @@ export default function ProfilePage() {
         {/* Profile Picture */}
         <div className="flex flex-col items-center -mt-10">
           <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white">
-          <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white">
-      {/* Placeholder profile image */}
-      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-        </svg>
-      </div>
-      </div>
-        </div>
-        <div className = "text-black text-center mt-2">
-          <h2 className="mt-2 text-xl font-bold">
-            {nickname === '' ? user.displayName : nickname}
-          </h2>
-          <p className="text-gray-500 text-sm">{pronouns}</p>
-          <p className="text-gray-500 text-sm">{location}</p>
-          <p className="text-gray-500 text-sm">{birthday}</p>
-        </div>
+            <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+          </div>
+          <div className="text-black text-center mt-2">
+            <h2 className="mt-2 text-xl font-bold">
+              {nickname === '' ? user?.displayName : nickname}
+            </h2>
+            <p className="text-gray-500 text-sm">{pronouns}</p>
+            <p className="text-gray-500 text-sm">{location}</p>
+            <p className="text-gray-500 text-sm">{birthday}</p>
+          </div>
         </div>
       </div>
       
@@ -198,25 +180,25 @@ export default function ProfilePage() {
       </div>
       
       {/* Communities */}
-      <div className="px-4 mt-6">
-        <h3 className="font-bold mb-2">Communities</h3>
+      <div className="px-4 mt-6 flex-shrink-0">
+        <h3 className="font-bold text-black mb-2">Communities</h3>
         <div className="flex gap-2 overflow-x-auto">
           {communities.map((community, index) => (
             <div key={index} className="min-w-32 bg-gray-100 p-3 rounded-lg">
-             <div className={`w-12 h-12 mx-auto rounded-full ${colorClasses[community.color as ColorOption]} flex items-center justify-center`}>
+              <div className={`w-12 h-12 mx-auto rounded-full ${colorClasses[community.color as ColorOption]} flex items-center justify-center`}>
                 <span className="text-white text-xs">{community.name.charAt(0)}</span>
               </div>
-              <p className="text-center text-sm mt-2">{community.name}</p>
+              <p className="text-center text-black text-sm mt-2">{community.name}</p>
             </div>
           ))}
         </div>
       </div>
       
       {/* Posts */}
-      <div className="px-4 mt-6 pb-16">
-        <h3 className="font-bold mb-2">Posts</h3>
+      <div className="px-4 mt-6 pb-16 text-black flex-grow overflow-y-auto">
+        <h3 className="font-bold text-black mb-2">Posts</h3>
         {posts.map((post, index) => (
-          <div key={index} className="border-t py-3">
+          <div key={index} className="border-2 border-gray-300 bg-gray-200 rounded-md py-3 my-4">
             <div className="flex justify-between">
               <h4 className="font-medium">{post.title}</h4>
               <div className="text-xs text-gray-500">
@@ -250,30 +232,7 @@ export default function ProfilePage() {
           </div>
         ))}
       </div>
-      
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3">
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-        </button>
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-          </svg>
-        </button>
-        <button>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </button>
-        <button className="text-blue-500">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </button>
-      </div>
+    
     </div>
   );
 }

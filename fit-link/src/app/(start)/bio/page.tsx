@@ -1,10 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/firebase/firebase-config';
 import { doc, setDoc } from 'firebase/firestore';
+
+type Bio = {
+  name: string;
+  pronouns: string;
+  location: string;
+  birthday: string;  // Optional if you want to allow missing birthday
+};
 
 const ArcLinkBioPage = () => {
   const [name, setName] = useState<string>('');
@@ -14,7 +21,7 @@ const ArcLinkBioPage = () => {
   const [interests, setInterests] = useState<string[]>([]);
   const [currentInterest, setCurrentInterest] = useState<string>('');
 
-  const { user } = useAuth();
+  const { user, logout, loading} = useAuth();
 
   const router = useRouter();
   
@@ -30,33 +37,91 @@ const ArcLinkBioPage = () => {
     setLocation(e.target.value);
   }
 
-    const handleChangeBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBirthday(e.target.value);
-    }
+  const handleChangeBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
+      setBirthday(e.target.value);
+  }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        // Handle form submission logic here
-         if (!user?.uid) {
-            alert("You're not logged in.");
-            return;
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      // Handle form submission logic here
+        if (!user?.uid) {
+          alert("You're not logged in.");
+          return;
+      }
 
-        const bioData = {
-            name,
-            pronouns,
-            location,
-            birthday,
-        };
+      const bioData = {
+          name,
+          pronouns,
+          location,
+          birthday,
+      };
 
+      try {
+          await setDoc(doc(db, 'bios', user.uid), bioData);
+      } catch (error) {
+          console.error("Failed to save bio:", error);
+          alert("Something went wrong. Please try again.");
+      }
+      router.push('/profile'); // Redirect to the main dashboard page after submission
+  }
+
+  useEffect(() => {
+    const fetchBio = async () => {
+      if (user?.uid) {
         try {
-            await setDoc(doc(db, 'bios', user.uid), bioData);
+          const bio = await fetchUserBio(user.uid);
+          
+          // Safely setting the values in state
+          setName(bio.name || '');
+          setPronouns(bio.pronouns || '');
+          setLocation(bio.location || '');
+          setBirthday(bio.birthday || '');
+
+          // Logging to check if the bio is retrieved correctly
+          console.log('Bio fetched:', bio);
+          console.log('Bio Name:', bio.name);
+          console.log('Bio Pronouns:', bio.pronouns);
+          console.log('Bio Location:', bio.location);
         } catch (error) {
-            console.error("Failed to save bio:", error);
-            alert("Something went wrong. Please try again.");
+          console.error('Error fetching bio:', error);
         }
-        router.push('/profile'); // Redirect to the main dashboard page after submission
+      }
+    };
+
+    if (user) {
+      fetchBio();
     }
+  }, []); // Only run when `user` is available
+  
+  const fetchUserBio = async (uid: string): Promise<Bio> => {
+    const res = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to fetch user bio');
+    }
+
+    return data.bio;
+  };
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+  const handleSignOut = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Error signing out", error);
+    }
+  }
 
   return (
     <div className="w-full h-screen bg-white text-black">
@@ -100,7 +165,7 @@ const ArcLinkBioPage = () => {
           <form className="space-y-4">
             <input 
               type="text" 
-              placeholder="Name..." 
+              placeholder="Name" 
               name="name"
               value={name}
               onChange={handleChangeName}
@@ -139,6 +204,13 @@ const ArcLinkBioPage = () => {
               className="w-full bg-gray-200 p-3 rounded text-black font-medium mt-4"
             >
               Continue
+            </button>
+
+            <button 
+              onClick={handleSignOut}
+              className="w-full bg-red-200 p-3 rounded text-black font-medium mt-4"
+            >
+              Log out
             </button>
             
             {/* <div className="flex items-center">
