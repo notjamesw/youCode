@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <body>
         <AuthProvider>
-          <div className="flex flex-col min-h-screen">
+          <div>
             {children}
           </div>
         </AuthProvider>
