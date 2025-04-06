@@ -17,7 +17,7 @@ export default function Navbar() {
           <Link href="/profile" className="text-gray-500">Profile</Link>
         </li>
         <li>
-            <Link href="/login" className="text-gray-500">Settings</Link>
+            <Link href="/login" className="text-gray-500">Login</Link>
         </li>
       </ul>
     </nav>
